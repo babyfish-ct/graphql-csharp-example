@@ -19,7 +19,20 @@ namespace GraphQLCSharpExample
         {
             setupdDatabase(services);
 
-            services.AddCors();
+            services.AddCors(
+                options => {
+                    options.AddPolicy(
+                        "CorsPolicy",
+                        builder =>
+                        {
+                            builder
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowAnyOrigin();
+                        }
+                    );
+                }
+            );
 
             services.AddGraphQL(
                 sp => SchemaBuilder
@@ -45,7 +58,9 @@ namespace GraphQLCSharpExample
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            app
+                .UseRouting()
+                .UseCors("CorsPolicy");
 
             const string path = "/graphql";
             app
