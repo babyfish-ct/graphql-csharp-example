@@ -52,7 +52,7 @@ namespace GraphQLCSharpExample.Model
 
         public Task<Department> GetDepartment([DataLoader] DepartmentLoader loader)
         {
-            return loader.LoadAsync(DepartmentId, new CancellationToken());
+            return loader.LoadRequiredAsync(DepartmentId);
         }
 
         public Task<Employee?> GetSupervisor([DataLoader] EmployeeLoader loader)
@@ -61,8 +61,12 @@ namespace GraphQLCSharpExample.Model
             {
                 return Task<Employee?>.FromResult<Employee?>(null);
             }
-            return loader.LoadAsync(SupervisorId ?? 0, new CancellationToken());
+            return loader.LoadOptionalAsync(Id);
         }
 
+        public Task<IReadOnlyList<Employee>> GetSubordinates([DataLoader] EmployeeListBySupervisorIdLoader loader)
+        {
+            return loader.LoadAsync(Id);
+        }
     }
 }

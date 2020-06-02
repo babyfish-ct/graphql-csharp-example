@@ -18,11 +18,14 @@ namespace GraphQLCSharpExample.Model
         [Column, NotNull]
         public string Name { get; set; } = string.Empty;
 
-        //public decimal? AvgSalary { get; set; }
+        public async Task<decimal?> GetAvgSalary([DataLoader] DepartmentAvgSalaryLoader loader)
+        {
+            return (await loader.LoadAsync(Id))?.Item2;
+        }
 
         public Task<IReadOnlyList<Employee>> GetEmployees([DataLoader] EmployeeListByDepartmentIdLoader loader)
         {
-            return loader.LoadAsync(Id, new CancellationToken());
+            return loader.LoadAsync(Id);
         }
     }
 }

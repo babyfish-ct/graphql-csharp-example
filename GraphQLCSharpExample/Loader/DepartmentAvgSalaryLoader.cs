@@ -19,7 +19,7 @@ namespace GraphQLCSharpExample.Loader
             this.repository = repository;
         }
 
-        protected override IList<Tuple<int, decimal>> BatchLoad(IReadOnlyCollection<int> keys)
+        protected override IList<Tuple<int, decimal>> BatchFetch(IReadOnlyCollection<int> keys)
         {
             return repository.FindAvgSalaryByDepartmentIds(keys);
         }

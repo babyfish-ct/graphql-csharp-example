@@ -8,15 +8,25 @@ using GreenDonut;
 namespace GraphQLCSharpExample.Loader.Common
 {
     public abstract class AbstractValueLoader<TKey, TValue> :
-        DataLoaderBase<TKey, TValue>
+        DataLoaderBase<TKey, TValue?>
         where TKey : notnull
         where TValue : class
     {
-        protected override Task<IReadOnlyList<Result<TValue>>> FetchAsync(
+        public Task<TValue?> LoadOptionalAsync(TKey key)
+        {
+            return LoadAsync(key, new CancellationToken());
+        }
+
+        public async Task<TValue> LoadRequiredAsync(TKey key)
+        {
+            return (await LoadAsync(key, new CancellationToken())) ?? throw new InvalidProgramException("Internal bug");
+        }
+
+        protected override sealed Task<IReadOnlyList<Result<TValue?>>> FetchAsync(
             IReadOnlyList<TKey> keys,
             CancellationToken cancellationToken)
         {
-            IList<TValue> originalValues = BatchLoad(keys);
+            IList<TValue> originalValues = BatchFetch(keys);
             IDictionary<TKey, TValue> map = new Dictionary<TKey, TValue>();
             foreach (TValue? value in originalValues)
             {
@@ -36,7 +46,7 @@ namespace GraphQLCSharpExample.Loader.Common
                 map.TryGetValue(key, out value);
                 newValues.Add(value);
             }
-            Func<IReadOnlyList<Result<TValue>>> asyncBody =
+            Func<IReadOnlyList<Result<TValue?>>> asyncBody =
                 () =>
                 {
                     var query =
@@ -49,6 +59,6 @@ namespace GraphQLCSharpExample.Loader.Common
 
         protected abstract TKey GetKey(TValue value);
 
-        protected abstract IList<TValue> BatchLoad(IReadOnlyCollection<TKey> keys);
+        protected abstract IList<TValue> BatchFetch(IReadOnlyCollection<TKey> keys);
     }
 }

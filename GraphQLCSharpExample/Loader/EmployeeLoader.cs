@@ -18,7 +18,7 @@ namespace GraphQLCSharpExample.Loader
             this.repository = repository;
         }
 
-        protected override IList<Employee> BatchLoad(IReadOnlyCollection<int> keys)
+        protected override IList<Employee> BatchFetch(IReadOnlyCollection<int> keys)
         {
             return repository.FindByIds(keys);
         }

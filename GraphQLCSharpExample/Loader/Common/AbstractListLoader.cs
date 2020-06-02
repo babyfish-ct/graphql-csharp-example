@@ -12,11 +12,16 @@ namespace GraphQLCSharpExample.Loader.Common
         where TKey: notnull
         where TValue: class
     {
-        protected override Task<IReadOnlyList<Result<IReadOnlyList<TValue>>>> FetchAsync(
+        public Task<IReadOnlyList<TValue>> LoadAsync(TKey key)
+        {
+            return LoadAsync(key, new CancellationToken());
+        }
+
+        protected override sealed Task<IReadOnlyList<Result<IReadOnlyList<TValue>>>> FetchAsync(
             IReadOnlyList<TKey> keys, 
             CancellationToken cancellationToken)
         {
-            IList<TValue> originalValues = BatchLoad(keys);
+            IList<TValue> originalValues = BatchFetch(keys);
             IDictionary<TKey, List<TValue>> groupMap = new Dictionary<TKey, List<TValue>>();
             foreach (TValue? value in originalValues)
             {
@@ -48,7 +53,7 @@ namespace GraphQLCSharpExample.Loader.Common
 
         protected abstract TKey GetKey(TValue value);
 
-        protected abstract IList<TValue> BatchLoad(IReadOnlyCollection<TKey> keys);
+        protected abstract IList<TValue> BatchFetch(IReadOnlyCollection<TKey> keys);
 
         private IReadOnlyList<TValue> groupList(IDictionary<TKey, List<TValue>> groupMap, TKey key)
         {
