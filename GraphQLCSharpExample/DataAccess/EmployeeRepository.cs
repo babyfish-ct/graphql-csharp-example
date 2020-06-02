@@ -47,10 +47,10 @@ namespace GraphQLCSharpExample.DataAccess
                 case EmployeeSortedType.Salary:
                     query = query.OrderBy(descending, e => e.Salary, e => e.Id);
                     break;
-                case EmployeeSortedType.DepartmentId:
+                case EmployeeSortedType.Department_Id:
                     query = query.OrderBy(descending, e => e.DepartmentId, e => e.Id);
                     break;
-                case EmployeeSortedType.DepartmentName:
+                case EmployeeSortedType.Department_Name:
                     var joinQuery = 
                         (from e in query
                             join d in db.Departments on e.DepartmentId equals d.Id
