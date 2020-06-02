@@ -61,7 +61,7 @@ namespace GraphQLCSharpExample.Model
             {
                 return Task<Employee?>.FromResult<Employee?>(null);
             }
-            return loader.LoadOptionalAsync(Id);
+            return loader.LoadOptionalAsync(SupervisorId ?? throw new InvalidOperationException("Internal bug"));
         }
 
         public Task<IReadOnlyList<Employee>> GetSubordinates([DataLoader] EmployeeListBySupervisorIdLoader loader)

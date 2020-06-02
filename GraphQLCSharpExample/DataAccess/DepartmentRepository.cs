@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GraphQLCSharpExample.Model;
 using System.Linq;
+using LinqToDB;
 
 namespace GraphQLCSharpExample.DataAccess
 {
@@ -33,6 +35,28 @@ namespace GraphQLCSharpExample.DataAccess
                 where ids.Contains(d.Id)
                 select d;
             return query.ToList();
+        }
+
+        public int Insert(string name)
+        {
+            return db
+                .Departments
+                .Value(d => d.Name, name)
+                .InsertWithInt32Identity() ?? throw new InvalidOperationException("Internal bug");
+        }
+
+        public int Update(int id, string name)
+        {
+            return db
+                .Departments
+                .Where(d => d.Id == id)
+                .Set(d => d.Name, name)
+                .Update();
+        }
+
+        public int Delete(int id)
+        {
+            return db.Departments.Delete(d => d.Id == id);
         }
     }
 }
