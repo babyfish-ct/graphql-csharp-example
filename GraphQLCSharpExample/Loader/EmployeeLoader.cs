@@ -9,7 +9,7 @@ namespace GraphQLCSharpExample.Loader
 {
     using Common;
 
-    public class EmployeeLoader : AbstractValueLoader<int, Employee>
+    public class EmployeeLoader : AbstractValueLoader<long, Employee>
     {
         private EmployeeRepository repository;
 
@@ -18,12 +18,12 @@ namespace GraphQLCSharpExample.Loader
             this.repository = repository;
         }
 
-        protected override IList<Employee> BatchFetch(IReadOnlyCollection<int> keys)
+        protected override IList<Employee> BatchFetch(IReadOnlyCollection<long> keys)
         {
             return repository.FindByIds(keys);
         }
 
-        protected override int GetKey(Employee value)
+        protected override long GetKey(Employee value)
         {
             return value.Id;
         }

@@ -53,10 +53,10 @@ namespace GraphQLCSharpExample.DataAccess.Database
 
         private void initData()
         {
-            int developId = departmentRepository.Insert("Develop");
-            int testId = departmentRepository.Insert("Test");
+            long developId = departmentRepository.Insert("Develop");
+            long testId = departmentRepository.Insert("Test");
 
-            int jimId = employeeRepository.Insert(
+            long jimId = employeeRepository.Insert(
                 new EmployeeInput 
                 { 
                     Name = "Jim",
@@ -86,7 +86,7 @@ namespace GraphQLCSharpExample.DataAccess.Database
                 }
             );
 
-            int lindaId = employeeRepository.Insert(
+            long lindaId = employeeRepository.Insert(
                 new EmployeeInput
                 {
                     Name = "Linda",

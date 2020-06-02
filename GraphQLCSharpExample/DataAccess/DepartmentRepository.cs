@@ -46,7 +46,7 @@ namespace GraphQLCSharpExample.DataAccess
             return query.Limit(limit, offset).ToList();
         }
 
-        public IList<Department> FindByIds(IReadOnlyCollection<int> ids)
+        public IList<Department> FindByIds(IReadOnlyCollection<long> ids)
         {
             var query =
                 from d in db.Departments
@@ -55,7 +55,7 @@ namespace GraphQLCSharpExample.DataAccess
             return query.ToList();
         }
 
-        public int Insert(string name)
+        public long Insert(string name)
         {
             return db
                 .Departments
@@ -63,7 +63,7 @@ namespace GraphQLCSharpExample.DataAccess
                 .InsertWithInt32Identity() ?? throw new InvalidOperationException("Internal bug");
         }
 
-        public int Update(int id, string name)
+        public int Update(long id, string name)
         {
             return db
                 .Departments
@@ -72,7 +72,7 @@ namespace GraphQLCSharpExample.DataAccess
                 .Update();
         }
 
-        public int Delete(int id)
+        public int Delete(long id)
         {
             return db.Departments.Delete(d => d.Id == id);
         }

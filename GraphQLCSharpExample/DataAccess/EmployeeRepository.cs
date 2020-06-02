@@ -63,7 +63,7 @@ namespace GraphQLCSharpExample.DataAccess
             return query.Limit(limit, offset).ToList();
         }
 
-        public IList<Employee> FindByIds(IReadOnlyCollection<int> ids)
+        public IList<Employee> FindByIds(IReadOnlyCollection<long> ids)
         {
             var query =
                 from e in db.Employees
@@ -72,7 +72,7 @@ namespace GraphQLCSharpExample.DataAccess
             return query.ToList();
         }
 
-        public IList<Employee> FindByDepartmentIds(IReadOnlyCollection<int> departmentIds)
+        public IList<Employee> FindByDepartmentIds(IReadOnlyCollection<long> departmentIds)
         {
             var query =
                 from e in db.Employees
@@ -81,7 +81,7 @@ namespace GraphQLCSharpExample.DataAccess
             return query.ToList();
         }
 
-        public IList<Employee> FindBySupervisorIds(IReadOnlyCollection<int> supervisorIds)
+        public IList<Employee> FindBySupervisorIds(IReadOnlyCollection<long> supervisorIds)
         {
             var query =
                 from e in db.Employees
@@ -90,17 +90,17 @@ namespace GraphQLCSharpExample.DataAccess
             return query.ToList();
         }
 
-        public IList<Tuple<int, decimal>> FindAvgSalaryByDepartmentIds(IReadOnlyCollection<int> departmentIds)
+        public IList<Tuple<long, decimal>> FindAvgSalaryByDepartmentIds(IReadOnlyCollection<long> departmentIds)
         {
             var query =
                 from e in db.Employees
                 where departmentIds.Contains(e.DepartmentId)
                 group e.Salary by e.DepartmentId into g
-                select new Tuple<int, decimal>(g.Key, g.Average());
+                select new Tuple<long, decimal>(g.Key, g.Average());
             return query.ToList();
         }
 
-        public int Insert(EmployeeInput input)
+        public long Insert(EmployeeInput input)
         {
             return db
                 .Employees
@@ -112,7 +112,7 @@ namespace GraphQLCSharpExample.DataAccess
                 .InsertWithInt32Identity() ?? throw new InvalidProgramException("Internal bug");
         }
 
-        public int Update(int id, EmployeeInput input)
+        public int Update(long id, EmployeeInput input)
         {
             return db
                 .Employees
@@ -125,7 +125,7 @@ namespace GraphQLCSharpExample.DataAccess
                 .Update();
         }
 
-        public int Delete(int id)
+        public int Delete(long id)
         {
             return db.Employees.Delete(e => e.Id == id);
         }

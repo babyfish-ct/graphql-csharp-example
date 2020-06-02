@@ -15,6 +15,6 @@ namespace GraphQLCSharpExample.Model.Input
 
         public decimal? MaxSalary { get; set; }
 
-        public IReadOnlyCollection<int>? DeparmtentIds { get; set; }
+        public IReadOnlyCollection<long>? DeparmtentIds { get; set; }
     }
 }

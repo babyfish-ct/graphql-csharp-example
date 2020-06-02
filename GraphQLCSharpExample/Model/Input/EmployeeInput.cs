@@ -13,8 +13,8 @@ namespace GraphQLCSharpExample.Model.Input
 
         public decimal Salary { get; set; } = 0;
 
-        public int DepartmentId { get; set; } = 0;
+        public long DepartmentId { get; set; } = 0;
 
-        public int? SupervisorId { get; set; }
+        public long? SupervisorId { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace GraphQLCSharpExample.Loader
 {
     using Common;
 
-    public class DepartmentAvgSalaryLoader : AbstractValueLoader<int, Tuple<int, decimal>>
+    public class DepartmentAvgSalaryLoader : AbstractValueLoader<long, Tuple<long, decimal>>
     {
         private EmployeeRepository repository;
 
@@ -19,12 +19,12 @@ namespace GraphQLCSharpExample.Loader
             this.repository = repository;
         }
 
-        protected override IList<Tuple<int, decimal>> BatchFetch(IReadOnlyCollection<int> keys)
+        protected override IList<Tuple<long, decimal>> BatchFetch(IReadOnlyCollection<long> keys)
         {
             return repository.FindAvgSalaryByDepartmentIds(keys);
         }
 
-        protected override int GetKey(Tuple<int, decimal> value)
+        protected override long GetKey(Tuple<long, decimal> value)
         {
             return value.Item1;
         }

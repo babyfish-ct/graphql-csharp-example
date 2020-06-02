@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using GraphQLCSharpExample.BusinessLogic;
+using GraphQLCSharpExample.BusinessLogic.Exception;
 using GraphQLCSharpExample.DataAccess;
 using GraphQLCSharpExample.DataAccess.Database;
 using GraphQLCSharpExample.Loader;
@@ -38,9 +39,12 @@ namespace GraphQLCSharpExample
                 sp => SchemaBuilder
                 .New()
                 .AddQueryType<OrgQuery>()
+                .AddMutationType<OrgMutation>()
                 .AddServices(sp)
                 .Create()
             );
+
+            services.AddErrorFilter<BusinessErrorFilter>();
 
             services.AddDataLoaderRegistry();
             services.AddDataLoader<DepartmentLoader>();

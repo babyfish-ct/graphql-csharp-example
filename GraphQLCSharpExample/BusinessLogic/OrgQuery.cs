@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using GraphQLCSharpExample.Model;
 using GraphQLCSharpExample.Model.Input;
@@ -21,6 +22,11 @@ namespace GraphQLCSharpExample.BusinessLogic
             this.employeeRepository = employeeRepository;
         }
 
+        public Department? GetDepartment(long id)
+        {
+            return departmentRepository.FindByIds(new List<long> { id }).FirstOrDefault();
+        }
+
         public int GetDepartmentCount(string? name)
         {
             return departmentRepository.Count(name);
@@ -40,6 +46,11 @@ namespace GraphQLCSharpExample.BusinessLogic
                 limit, 
                 offset
             );
+        }
+
+        public Employee? GetEmployee(long id)
+        {
+            return employeeRepository.FindByIds(new List<long> { id }).FirstOrDefault();
         }
 
         public int GetEmployeeCount(EmployeeCriteriaInput? criteria)
