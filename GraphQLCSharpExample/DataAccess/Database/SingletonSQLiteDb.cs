@@ -1,6 +1,8 @@
-﻿using LinqToDB;
+﻿using System;
+using LinqToDB;
 using LinqToDB.Data;
 using GraphQLCSharpExample.Model;
+using Microsoft.Extensions.Logging;
 
 namespace GraphQLCSharpExample.DataAccess.Database
 {
@@ -14,11 +16,22 @@ namespace GraphQLCSharpExample.DataAccess.Database
      */
     public class SingletonSQLiteDb : DataConnection
     {
-        public SingletonSQLiteDb() : base(
+        private ILogger<SingletonSQLiteDb> logger;
+
+        public SingletonSQLiteDb(
+            ILogger<SingletonSQLiteDb> logger
+        ) : base(
             dataProvider: new LinqToDB.DataProvider.SQLite.SQLiteDataProvider(),
             connectionString: "Data Source =:memory: "
         ) {
-            
+            this.logger = logger;
+
+            TurnTraceSwitchOn();
+            WriteTraceLine =
+                (message, displayName) =>
+                { 
+                    logger.LogInformation($"{message} {displayName}"); 
+                };
         }
 
         public ITable<Department> Departments => GetTable<Department>();

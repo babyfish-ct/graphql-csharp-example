@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using GraphQLCSharpExample.Model;
+using GraphQLCSharpExample.Model.Input;
+using GraphQLCSharpExample.Model.Sort;
 using GraphQLCSharpExample.DataAccess;
 
 namespace GraphQLCSharpExample.BusinessLogic
@@ -19,14 +21,46 @@ namespace GraphQLCSharpExample.BusinessLogic
             this.employeeRepository = employeeRepository;
         }
 
-        public IList<Department> GetDepartments()
+        public int GetDepartmentCount(string? name)
         {
-            return departmentRepository.Find(null);
+            return departmentRepository.Count(name);
         }
 
-        public IList<Employee> GetEmployees()
+        public IList<Department> GetDepartments(
+            string? name,
+            DepartmentSortedType? sortedType,
+            bool? descending,
+            int? limit,
+            int? offset)
         {
-            return employeeRepository.Find(null);
+            return departmentRepository.Find(
+                name, 
+                sortedType ?? DepartmentSortedType.Id,
+                descending ?? false,
+                limit, 
+                offset
+            );
+        }
+
+        public int GetEmployeeCount(EmployeeCriteriaInput? criteria)
+        {
+            return employeeRepository.Count(criteria);
+        }
+
+        public IList<Employee> GetEmployees(
+            EmployeeCriteriaInput? criteria,
+            EmployeeSortedType? sortedType,
+            bool? descending,
+            int? limit,
+            int? offset)
+        {
+            return employeeRepository.Find(
+                criteria,
+                sortedType ?? EmployeeSortedType.Id,
+                descending ?? false,
+                limit,
+                offset
+            );
         }
     }
 }
