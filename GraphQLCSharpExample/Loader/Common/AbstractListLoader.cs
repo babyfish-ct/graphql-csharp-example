@@ -12,6 +12,17 @@ namespace GraphQLCSharpExample.Loader.Common
         where TKey: notnull
         where TValue: class
     {
+        private static readonly DataLoaderOptions<TKey> DEFAULT_OPTIONS =
+            new DataLoaderOptions<TKey>
+            {
+                MaxBatchSize = 16
+            };
+
+        public AbstractListLoader(DataLoaderOptions<TKey>? options = null)
+            : base(options ?? DEFAULT_OPTIONS)
+        {
+        }
+
         public Task<IReadOnlyList<TValue>> LoadAsync(TKey key)
         {
             return LoadAsync(key, new CancellationToken());
