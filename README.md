@@ -6,7 +6,7 @@ This is server-side demo for .NET Core, please visit https://github.com/babyfish
 
 1. Download or 'git clone' this project
 2. Open this project by Visual Studio
-3. Start this web server **by kestrel *(not IIS)* **
+3. Start this web server **by kestrel (not IIS) **
 4. Open your browser, access http://localhost:8080/graphql/playground
 
 # Start Client
