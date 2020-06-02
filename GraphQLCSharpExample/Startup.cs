@@ -19,12 +19,16 @@ namespace GraphQLCSharpExample
         {
             setupdDatabase(services);
 
+            services.AddCors();
+
             services.AddGraphQL(
-                sp => SchemaBuilder.New()
+                sp => SchemaBuilder
+                .New()
                 .AddQueryType<OrgQuery>()
                 .AddServices(sp)
                 .Create()
             );
+
             services.AddDataLoaderRegistry();
             services.AddDataLoader<DepartmentLoader>();
             services.AddDataLoader<EmployeeLoader>();
@@ -40,9 +44,13 @@ namespace GraphQLCSharpExample
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseGraphQL();
-            app.UsePlayground();
+
+            app.UseRouting();
+
+            const string path = "/graphql";
+            app
+                .UseGraphQL(path)
+                .UsePlayground(path);
         }
 
         private void setupdDatabase(IServiceCollection services)

@@ -99,7 +99,7 @@ namespace GraphQLCSharpExample.DataAccess.Database
                 new EmployeeInput
                 {
                     Name = "Smith",
-                    Gender = Gender.Female,
+                    Gender = Gender.Male,
                     Salary = 6000,
                     DepartmentId = testId,
                     SupervisorId = lindaId

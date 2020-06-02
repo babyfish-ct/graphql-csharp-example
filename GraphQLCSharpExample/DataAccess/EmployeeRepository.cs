@@ -147,7 +147,7 @@ namespace GraphQLCSharpExample.DataAccess
                 {
                     query =
                         from e in query
-                        where e.Gender == e.Gender
+                        where e.Gender == criteria.Gender
                         select e;
                 }
                 if (criteria.MinSalary != null)
