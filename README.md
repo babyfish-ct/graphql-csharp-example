@@ -1,4 +1,4 @@
-An GraphQL server-side example by using hot-chocolate(https://github.com/ChilliCream/hotchocolate) with data loader
+A GraphQL server-side example by using hot-chocolate(https://github.com/ChilliCream/hotchocolate) with data loader
 
 This is server-side demo for .NET Core, please visit https://github.com/babyfish-ct/graphql-kotlin-example to see the server-side demo for JVM.
 
