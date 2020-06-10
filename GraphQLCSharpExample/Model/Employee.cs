@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using HotChocolate;
+using HotChocolate.Resolvers;
 using LinqToDB.Mapping;
 using GraphQLCSharpExample.Loader;
 
 namespace GraphQLCSharpExample.Model
 {
+    using Common;
+
     /**
      * The JVM server example(https://github.com/babyfish-ct/graphql-kotlin-example)
      * and the React client example(https://github.com/babyfish-ct/graphql-react-example)
@@ -94,16 +96,28 @@ namespace GraphQLCSharpExample.Model
         [GraphQLIgnore]
         public int? SupervisorId { get; set; }
 
-        public Task<Department> GetDepartment([DataLoader] DepartmentLoader loader)
+        public Task<Department> GetDepartment(
+            IResolverContext ctx,
+            [DataLoader] DepartmentLoader loader)
         {
+            if (ctx.IsSingleField("id"))
+            {
+                return Task.FromResult(new Department { Id = DepartmentId });
+            }
             return loader.LoadRequiredAsync(DepartmentId);
         }
 
-        public Task<Employee?> GetSupervisor([DataLoader] EmployeeLoader loader)
+        public Task<Employee?> GetSupervisor(
+            IResolverContext ctx,
+            [DataLoader] EmployeeLoader loader)
         {
             if (SupervisorId == null)
             {
                 return Task<Employee?>.FromResult<Employee?>(null);
+            }
+            if (ctx.IsSingleField("id"))
+            {
+                return Task.FromResult<Employee?>(new Employee { Id = SupervisorId ?? 0 });
             }
             return loader.LoadOptionalAsync(SupervisorId ?? throw new InvalidOperationException("Internal bug"));
         }
